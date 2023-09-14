@@ -1,12 +1,6 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
 header {
     text-align: center;
-    background-color: #333;
+    background-color: #660e94;
     color: white;
     padding: 20px;
 }
@@ -39,13 +33,14 @@ button {
 
 footer {
     text-align: right;
-    background-color: #333;
+    background-color: none;
     padding: 10px;
     position: absolute;
     bottom: 0;
     right: 0;
+
 }
 
 footer img {
-    height: 30px;
+    height: 100px;
 }
