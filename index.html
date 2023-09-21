@@ -7,21 +7,31 @@
     <title>Batimento de Base OTA</title>
 </head>
 <body>
+    <!-- Cabeça~lho com Titulo da página -->
     <header>
         <h1>Batimento de Base OTA</h1>
     </header>
     <main>
+        <!-- Container background -->
         <div class="container">
-            <div class="status" id="ota-status">Status OTA: Aguardando upload...</div>
-            <div class="status" id="target-status">Status TARGET: Aguardando upload...</div>
+            <!-- Children com status OTA -->
+            <div class="status" id="ota-status">
+                <img src="img/img-ota-target.png" alt="arquivo ota">Status OTA: Aguardando upload...</div>
+            <!-- Children com status TARGET -->
+            <div class="status" id="target-status">
+                <img src="img/img-ota-target.png" alt="arquivo target">Status TARGET: Aguardando upload...</div>
+            <!-- BT_UPLOAD -->
             <button id="upload-btn">Upload</button>
+            <!-- BT_DOWNLOAD -->
             <button id="download-btn" disabled>Download</button>
+            <!-- BT_CANCELAR -->
             <button id="cancel-btn">Cancelar</button>
         </div>
     </main>
+    <!-- footer logo -->
     <footer>
-        <img src="img/logo5G.jpg" alt="Logo Telefonica">
+        <img src="img/telefonica-logo.png" alt="Logo Telefonica">
     </footer>
-    <script src="script.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>
