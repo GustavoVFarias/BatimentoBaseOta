@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/estilo.css"> <!-- Estilo CSS -->
+    <title>Batimento de Base OTA</title>
+    <style>
+        /* Estilos para os botões personalizados */
+        .custom-file-upload {
+            border: 2px solid #ccc;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+        }
+
+        #download-btn {
+            display: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            background-color: #0464fc;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #cancel-btn {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Batimento de Base OTA</h1>
+</header>
+<main>
+    <div class="container">
+        <form id="upload-form" action="/upload" method="POST" enctype="multipart/form-data">
+            <label class="custom-file-upload">
+                <input type="file" name="file1" accept=".csv" onchange="displaySelectedFileNames(this)"> <!-- Campo de upload 1 -->
+                Escolher Arquivo 1
+            </label>
+            <label class="custom-file-upload">
+                <input type="file" name="file2" accept=".csv" onchange="displaySelectedFileNames(this)"> <!-- Campo de upload 2 -->
+                Escolher Arquivo 2
+            </label>
+            <button type="submit" id="upload-btn">Upload</button>
+            <button id="cancel-btn" onclick="cancelUpload()">Cancelar</button>
+        </form>
+        <p id="upload-status" style="display: none">Arquivos: <span id="selected-file-names"></span></p>
+        <p id="download-status" style="display: none">Download pronto. <a id="download-btn" href="/download?filename=" style="display: none">Clique aqui para baixar.</a></p>
+        <div class="status" id="upload-status" style="display: none;">Status Upload: Aguardando upload...</div>
+    </div>
+</main>
+<footer>
+    <img src="/static/img/telefonica-logo.png" alt="Logo Telefonica">
+</footer>
+<script>
+    var uploadInProgress = false;
+
+    // Função para exibir o nome dos arquivos selecionados nos botões
+    function displaySelectedFileNames(input) {
+        var label = input.parentElement;
+        var fileName = input.files[0].name;
+        label.textContent = "Arquivo selecionado: " + fileName;
+        document.getElementById("selected-file-names").textContent = fileName;
+    }
+
+    // Função para cancelar o upload e recarregar a página
+    function cancelUpload() {
+        if (uploadInProgress) {
+            uploadInProgress = false;
+            var confirmation = confirm("Tem certeza de que deseja cancelar o upload?");
+            if (confirmation) {
+                alert("Upload cancelado. A página será recarregada.");
+                // Recarregue a página para restaurar ao estado inicial
+                window.location.reload();
+            }
+        } else {
+            // Se o upload não estiver em andamento, apenas oculte o botão de download
+            document.getElementById("download-status").style.display = "none";
+        }
+    }
+
+    // Adicione um evento de envio ao formulário para simular o upload
+    document.getElementById("upload-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        if (!uploadInProgress) {
+            uploadInProgress = true;
+            // Simulação de upload (substitua por sua lógica real de upload)
+            var cancelBtn = document.getElementById("cancel-btn");
+            var downloadStatus = document.getElementById("download-status");
+            var downloadBtn = document.getElementById("download-btn");
+            var uploadStatus = document.getElementById("upload-status");
+
+            // Ocultar os botões de escolher arquivos
+            document.getElementById("upload-form").style.display = "none";
+
+            // Exibir o status final após o tempo de simulação
+            setTimeout(function () {
+                uploadStatus.style.display = "block";
+                document.getElementById("upload-status").textContent = "Status Upload: Upload Completo";
+                document.getElementById("upload-status").style.color = "green";
+                document.getElementById("upload-status").style.fontWeight = "bold";
+                document.getElementById("upload-status").style.fontSize = "16px";
+                document.getElementById("upload-status").style.marginTop = "20px";
+
+                document.getElementById("upload-status").style.display = "none";
+                downloadStatus.style.display = "block";
+                downloadBtn.style.display = "inline";
+            }, 2000); // Simulação de 2 segundos para o upload (substitua pela sua lógica de upload real)
+        }
+    });
+</script>
+</body>
+</html>
+
+

@@ -1,0 +1,116 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    text-align: center;
+    background-color:#0464fc;
+    color: #ffff;
+    padding: 1px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+}
+
+.container {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.status {
+    margin: 10px 0;
+}
+
+.container img {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+}
+#download-btn {
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #0464fc; /* Cor de fundo */
+    color: #fff; /* Cor do texto */
+    border: none; /* Remova a borda */
+    border-radius: 5px; /* Borda arredondada */
+    text-decoration: none; /* Remova sublinhado (se houver) */
+}
+
+#download-btn:hover {
+    background-color: #0248d3; /* Cor de fundo no hover */
+}
+
+#upload-complete {
+    display: none;
+    margin: 10px 0;
+    background-color: #5cb85c; /* Cor de fundo verde */
+    color: #fff; /* Cor do texto branco */
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+/* Adicione estilos para os botões de escolher arquivos */
+input[type="file"] {
+    display: none; /* Oculta o input real */
+}
+
+.custom-file-upload {
+    border: 2px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+/* Estilo para o botão de download */
+#download-btn {
+    display: none;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #0464fc;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+/* Estilo para o botão de cancelar */
+#cancel-btn {
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #ff0000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+footer {
+    text-align: right;
+    background-color: #ffff;
+    padding: 20px;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+}
+
+footer img {
+    height: 50px;
+    width: 150px;
+}
