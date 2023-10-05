@@ -5,69 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/estilo.css">
     <title>Batimento de Base OTA</title>
-    <style>
-        /* Adicione estilos para os botões de escolher arquivos */
-        input[type="file"] {
-            display: none;
-            /* Oculta o input real */
-        }
-
-        .custom-file-upload {
-            border: 2px solid #ccc;
-            display: inline-block;
-            padding: 6px 12px;
-            cursor: pointer;
-        }
-
-        /* Estilo para o botão de download */
-        #download-btn {
-            display: none;
-            padding: 10px 20px;
-            margin: 10px;
-            cursor: pointer;
-            background-color: #0464fc;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-        }
-
-        /* Estilo para o botão de cancelar */
-        #cancel-btn {
-            padding: 10px 20px;
-            margin: 10px;
-            cursor: pointer;
-            background-color: #ff0000;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-        }
-
-        /* Estilo para a caixa de diálogo modal */
-        #modal-container {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        #modal-content {
-            background-color: #fff;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 50%;
-            text-align: center;
-            border-radius: 5px;
-        }
-
-        #modal-buttons {
-            margin-top: 20px;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -89,7 +26,7 @@
                 </label>
                 <button id="upload-btn">Upload</button>
                 <!-- Botão de cancelar -->
-                <button id="cancel-btn">Cancelar</button>
+                <button id="cancel-btn" type="button" onclick="cancelUpload()">Cancelar</button>
                 <!-- Botão de download -->
                 <button id="download-btn" onclick="iniciarDownload()">Download</button>
             </form>
@@ -141,21 +78,22 @@
             modalContainer.style.display = "none";
         }
 
-        // Função para cancelar o upload e recarregar a página
+        // Função para cancelar o upload e voltar à escolha de arquivos
         function cancelUpload() {
             if (uploadInProgress) {
                 uploadInProgress = false;
-                openModal();
+                resetForm();
             }
         }
 
         // Função para redefinir o formulário e restaurar o estado inicial
         function resetForm() {
             // Redefina o formulário para permitir que o usuário escolha os arquivos novamente
-            document.getElementById("upload-form").reset();
+            var uploadForm = document.getElementById("upload-form");
+            uploadForm.reset();
 
             // Restaure os botões de escolher arquivos
-            var fileInput = document.querySelector('input[type="file"]');
+            var fileInput = uploadForm.querySelector('input[type="file"]');
             var label = fileInput.parentElement;
             label.textContent = "Escolher Arquivos";
 
@@ -178,7 +116,7 @@
         // Função para criar o conteúdo do arquivo
         function criarConteudoArquivo() {
             // Aqui você pode gerar o conteúdo do arquivo, por exemplo, um texto simples.
-            var conteudo = "Output Baixado.";
+            var conteudo = "Output Baixado  .";
 
             return conteudo;
         }
@@ -251,10 +189,17 @@
         document.getElementById("cancel-btn").addEventListener("click", cancelUpload);
         document.getElementById("confirm-cancel-btn").addEventListener("click", function () {
             closeModal();
+            // Reinicie o formulário para a escolha de arquivos
             resetForm();
         });
         document.getElementById("cancel-modal-btn").addEventListener("click", closeModal);
     </script>
 </body>
 </html>
+
+
+
+
+
+
 
