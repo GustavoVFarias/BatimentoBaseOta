@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/estilo.css">
+    <title>Batimento de Base OTA</title>
+    <style>
+        /* Adicione estilos para os botões de escolher arquivos */
+        input[type="file"] {
+            display: none;
+            /* Oculta o input real */
+        }
+
+        .custom-file-upload {
+            border: 2px solid #ccc;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+        }
+
+        /* Estilo para o botão de download */
+        #download-btn {
+            display: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            background-color: #0464fc;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+
+        /* Estilo para o botão de cancelar */
+        #cancel-btn {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+
+        /* Estilo para a caixa de diálogo modal */
+        #modal-container {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        #modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        #modal-buttons {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Batimento de Base OTA</h1>
+    </header>
+    <main>
+        <div class="container">
+            <div class="status" id="ota-status">
+                <img src="/img/img-ota-target.png" alt="arquivo ota">Status OTA: Aguardando upload...
+            </div>
+            <div class="status" id="target-status">
+                <img src="/img/img-ota-target.png" alt="arquivo target">Status TARGET: Aguardando upload...
+            </div>
+            <form id="upload-form">
+                <!-- Botões personalizados de escolher arquivo -->
+                <label class="custom-file-upload">
+                    <input type="file" name="files" accept=".csv" multiple>
+                    Escolher Arquivos
+                </label>
+                <button id="upload-btn">Upload</button>
+                <!-- Botão de cancelar -->
+                <button id="cancel-btn">Cancelar</button>
+                <!-- Botão de download -->
+                <button id="download-btn" onclick="iniciarDownload()">Download</button>
+            </form>
+            <!-- Status de Upload Completo aqui -->
+            <div class="status" id="upload-complete" style="display: none">
+                Upload finalizado!
+            </div>
+        </div>
+    </main>
+    <footer>
+        <img src="/img/telefonica-logo.png" alt="Logo Telefonica">
+    </footer>
+
+    <script>
+        var originalOtaStatus = document.getElementById("ota-status").innerHTML;
+        var uploadInProgress = false;
+
+        // Referências para os elementos do modal
+        var modalContainer = document.getElementById("modal-container");
+
+        // Função para exibir o nome dos arquivos selecionados nos botões
+        function displaySelectedFileNames() {
+            var fileInput = document.querySelector('input[type="file"]');
+            var label = fileInput.parentElement;
+            var fileName = "";
+            for (var i = 0; i < fileInput.files.length; i++) {
+                fileName += fileInput.files[i].name;
+                if (i < fileInput.files.length - 1) {
+                    fileName += ", ";
+                }
+            }
+            label.textContent = "Arquivos: " + fileName;
+        }
+
+        // Função para simular o download
+        function downloadFile() {
+            // Simule o download do arquivo aqui
+            alert("Download do arquivo iniciado.");
+            // Redirecione para a página de download real ou realize a ação desejada.
+        }
+
+        // Função para abrir o modal de confirmação
+        function openModal() {
+            modalContainer.style.display = "block";
+        }
+
+        // Função para fechar o modal de confirmação
+        function closeModal() {
+            modalContainer.style.display = "none";
+        }
+
+        // Função para cancelar o upload e recarregar a página
+        function cancelUpload() {
+            if (uploadInProgress) {
+                uploadInProgress = false;
+                openModal();
+            }
+        }
+
+        // Função para redefinir o formulário e restaurar o estado inicial
+        function resetForm() {
+            // Redefina o formulário para permitir que o usuário escolha os arquivos novamente
+            document.getElementById("upload-form").reset();
+
+            // Restaure os botões de escolher arquivos
+            var fileInput = document.querySelector('input[type="file"]');
+            var label = fileInput.parentElement;
+            label.textContent = "Escolher Arquivos";
+
+            // Restaure o status inicial
+            document.getElementById("ota-status").style.display = "block";
+            document.getElementById("target-status").style.display = "block";
+            var imgOta = document.querySelector('#ota-status img');
+            imgOta.src = "/img/img-ota-target.png"; // Restaure a imagem original se necessário
+            document.getElementById("ota-status").innerHTML = originalOtaStatus;
+
+            // Ocultar o status de upload completo e o botão de download
+            document.getElementById("upload-complete").style.display = "none";
+            document.getElementById("download-btn").style.display = "none";
+
+            // Mostrar o botão de upload e o botão de cancelar
+            document.getElementById("upload-btn").style.display = "inline";
+            document.getElementById("cancel-btn").style.display = "inline";
+        }
+
+        // Função para criar o conteúdo do arquivo
+        function criarConteudoArquivo() {
+            // Aqui você pode gerar o conteúdo do arquivo, por exemplo, um texto simples.
+            var conteudo = "Output Baixado.";
+
+            return conteudo;
+        }
+
+        // Função para iniciar o download
+        function iniciarDownload() {
+            var conteudo = criarConteudoArquivo();
+
+            // Crie um objeto Blob com o conteúdo do arquivo.
+            var blob = new Blob([conteudo], { type: "text/plain" });
+
+            // Crie um objeto URL para o Blob.
+            var url = window.URL.createObjectURL(blob);
+
+            // Crie um elemento de link para iniciar o download.
+            var link = document.createElement("a");
+            link.href = url;
+            link.download = "output.csv"; // Nome do arquivo que será baixado.
+
+            // Simule um clique no link para iniciar o download.
+            link.click();
+
+            // Libere o objeto URL após o download.
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Adicione um evento de alteração ao botão de arquivo para exibir os nomes dos arquivos selecionados
+        var fileInput = document.querySelector('input[type="file"]');
+        fileInput.addEventListener("change", displaySelectedFileNames);
+
+        // Adicione um evento de envio ao formulário para simular o upload
+        document.getElementById("upload-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            if (!uploadInProgress && fileInput.files.length > 0) {
+                uploadInProgress = true;
+                // Simulação de upload (substitua por sua lógica real de upload)
+                var cancelBtn = document.getElementById("cancel-btn");
+                var uploadComplete = document.getElementById("upload-complete");
+                var downloadBtn = document.getElementById("download-btn");
+
+                // Ocultar os botões de escolher arquivos
+                fileInput.style.display = "none";
+
+                // Esconder o status inicial
+                document.getElementById("ota-status").style.display = "none";
+                document.getElementById("target-status").style.display = "none";
+
+                // Exibir o status final após o tempo de simulação
+                setTimeout(function () {
+                    var imgOta = document.querySelector('#ota-status img');
+                    imgOta.src = "/img/img-ota-target.png"; // Altere a imagem se necessário
+                    document.getElementById("ota-status").innerHTML = 'Status OTA: Upload finalizado!';
+                    uploadComplete.style.display = "block";
+
+                    // Mostrar o botão de cancelar e o botão de download
+                    cancelBtn.style.display = "inline";
+                    downloadBtn.style.display = "inline";
+
+                    // Configurar o link para o download do arquivo
+                    downloadBtn.href = ""; // Substitua pela URL correta do script no servidor
+
+                    // Adicionar evento de clique para download
+                    downloadBtn.addEventListener("click", downloadFile);
+                }, 2000); // Simulação de 2 segundos para o upload (substitua pela sua lógica de upload real)
+            }
+        });
+
+        // Adicionar evento de clique para o botão de cancelar no modal
+        document.getElementById("cancel-btn").addEventListener("click", cancelUpload);
+        document.getElementById("confirm-cancel-btn").addEventListener("click", function () {
+            closeModal();
+            resetForm();
+        });
+        document.getElementById("cancel-modal-btn").addEventListener("click", closeModal);
+    </script>
+</body>
+</html>
+
